@@ -50,7 +50,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("new Disposable()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<EqualsValueClauseSyntax>(code).Value;
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -91,7 +91,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("new Disposable()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<EqualsValueClauseSyntax>(code).Value;
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -161,7 +161,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("// Meh()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<InvocationExpressionSyntax>(code);
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -255,7 +255,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("// Meh()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<InvocationExpressionSyntax>(code);
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -310,7 +310,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("// Meh()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<InvocationExpressionSyntax>(code);
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -363,7 +363,7 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("// Meh()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<EqualsValueClauseSyntax>(code).Value;
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
@@ -414,10 +414,35 @@ namespace RoslynSandbox
 }";
                 testCode = testCode.AssertReplace("// Meh()", code);
                 var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
-                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+                var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var value = syntaxTree.BestMatch<EqualsValueClauseSyntax>(code).Value;
                 Assert.AreEqual(expected, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
+            }
+
+            [Test]
+            public void NinjectStandardKernelGet()
+            {
+                var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Ninject;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var kernel = new StandardKernel();
+            var disposable = kernel.Get<IDisposable>();
+        }
+    }
+}";
+                var syntaxTree = CSharpSyntaxTree.ParseText(testCode);
+                var semanticModel = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes())
+                                                     .GetSemanticModel(syntaxTree);
+                var value = syntaxTree.BestMatch<EqualsValueClauseSyntax>("kernel.Get<IDisposable>()").Value;
+                Assert.AreEqual(Result.Maybe, Disposable.IsCreation(value, semanticModel, CancellationToken.None));
             }
         }
     }

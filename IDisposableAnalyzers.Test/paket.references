@@ -2,6 +2,7 @@ group Test
   Microsoft.CodeAnalysis.CSharp.Workspaces
   NUnit
   Moq
+  Ninject
   Gu.Roslyn.Asserts
   System.Reactive
   System.Reactive.Linq

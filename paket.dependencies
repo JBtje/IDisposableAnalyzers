@@ -12,6 +12,7 @@ group Test
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.3.2
   nuget NUnit
   nuget Moq
+  nuget Ninject
   nuget Gu.Roslyn.Asserts
   nuget System.Reactive
   nuget System.Reactive.Linq

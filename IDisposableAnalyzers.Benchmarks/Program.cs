@@ -32,7 +32,7 @@ namespace IDisposableAnalyzers.Benchmarks
 
         public static void Main()
         {
-            if (false)
+            if (true)
             {
                 var walker = new BenchmarkWalker(Code.AnalyzersProject, new IDISP001DisposeCreated());
 
@@ -42,7 +42,7 @@ namespace IDisposableAnalyzers.Benchmarks
                 Console.ReadKey();
                 walker.Run();
             }
-            else if (true)
+            else if (false)
             {
                 foreach (var summary in RunSingle<IDISP001DisposeCreatedBenchmarks>())
                 {

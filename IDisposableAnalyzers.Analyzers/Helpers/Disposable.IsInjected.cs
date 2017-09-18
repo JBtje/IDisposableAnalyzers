@@ -19,8 +19,8 @@ namespace IDisposableAnalyzers
             {
                 using (var recursive = RecursiveValues.Create(sources.Item, semanticModel, cancellationToken))
                 {
-                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe) &&
-                           !IsInjectedCore(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe);
+                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken) == Result.Yes &&
+                           IsInjectedCore(recursive, semanticModel, cancellationToken) == Result.No;
                 }
             }
         }
@@ -37,8 +37,8 @@ namespace IDisposableAnalyzers
             {
                 using (var recursive = RecursiveValues.Create(sources.Item, semanticModel, cancellationToken))
                 {
-                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe) &&
-                           !IsInjectedCore(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe);
+                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken) == Result.Yes &&
+                           IsInjectedCore(recursive, semanticModel, cancellationToken) == Result.No;
                 }
             }
         }
@@ -55,8 +55,8 @@ namespace IDisposableAnalyzers
             {
                 using (var recursive = RecursiveValues.Create(sources.Item, semanticModel, cancellationToken))
                 {
-                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe) &&
-                           IsInjectedCore(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe);
+                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken) == Result.Yes &&
+                           IsInjectedCore(recursive, semanticModel, cancellationToken) == Result.Yes;
                 }
             }
         }
@@ -73,8 +73,8 @@ namespace IDisposableAnalyzers
             {
                 using (var recursive = RecursiveValues.Create(sources.Item, semanticModel, cancellationToken))
                 {
-                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe) &&
-                           IsInjectedCore(recursive, semanticModel, cancellationToken).IsEither(Result.Yes, Result.Maybe);
+                    return IsAssignedWithCreated(recursive, semanticModel, cancellationToken) == Result.Yes &&
+                           IsInjectedCore(recursive, semanticModel, cancellationToken) == Result.Yes;
                 }
             }
         }

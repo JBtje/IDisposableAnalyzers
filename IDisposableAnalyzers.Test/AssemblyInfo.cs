@@ -16,4 +16,5 @@
     typeof(System.Xaml.XamlLanguage),
     typeof(Microsoft.CodeAnalysis.CSharp.CSharpCompilation),
     typeof(Microsoft.CodeAnalysis.Compilation),
+    typeof(Ninject.StandardKernel),
     typeof(NUnit.Framework.Assert))]

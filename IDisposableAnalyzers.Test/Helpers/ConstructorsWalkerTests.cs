@@ -3,7 +3,7 @@ namespace IDisposableAnalyzers.Test.Helpers
     using System;
     using System.Linq;
     using System.Threading;
-
+    using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -29,7 +29,7 @@ namespace RoslynSandbox
         }
     }
 }");
-            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var type = syntaxTree.BestMatch<TypeDeclarationSyntax>("Foo");
             using (var pooled = ConstructorsWalker.Create(type, semanticModel, CancellationToken.None))
@@ -58,7 +58,7 @@ namespace RoslynSandbox
         }
     }
 }");
-            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var type = syntaxTree.BestMatch<TypeDeclarationSyntax>("Foo");
             using (var pooled = ConstructorsWalker.Create(type, semanticModel, CancellationToken.None))
@@ -87,7 +87,7 @@ namespace RoslynSandbox
         }
     }
 }");
-            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.All);
+            var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var type = syntaxTree.BestMatch<TypeDeclarationSyntax>("Foo");
             using (var pooled = ConstructorsWalker.Create(type, semanticModel, CancellationToken.None))
